@@ -1,13 +1,19 @@
 package modules;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
+import core.PlaywrightDriverManager;
+import interfaces.Web_Platform;
 
-public class WebPlatform {
-    private static Playwright playwright;
-    private static Browser browser;
-    private static BrowserContext context;
-    private static Page page;
+public class WebPlatform implements Web_Platform {
+
+    private Page page;
+
+    @Override
+    public void launch() {
+        page = PlaywrightDriverManager.getPage();
+        if (page == null) {
+            throw new IllegalStateException("Browser not initialized! step_def.Hooks.java should have run before this.");
+        }
+        page.waitForLoadState();
+    }
 }

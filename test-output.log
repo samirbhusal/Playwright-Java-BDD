@@ -1,0 +1,55 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com:Playwright-BDD-Java-TestNG >-------------------
+[INFO] Building Playwright-BDD-Java-TestNG 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.4.0:resources (default-resources) @ Playwright-BDD-Java-TestNG ---
+[INFO] skip non existing resourceDirectory /Users/samirbhusal/Documents/Development/Playwright-BDD-Java-TestNG/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ Playwright-BDD-Java-TestNG ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ Playwright-BDD-Java-TestNG ---
+[INFO] Copying 3 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ Playwright-BDD-Java-TestNG ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 12 source files with javac [debug target 25] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ Playwright-BDD-Java-TestNG ---
+[INFO] Using auto detected provider org.apache.maven.surefire.testng.TestNGProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running TestRunner
+SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.
+🚀 [step_def.Hooks] Initializing Playwright before scenario...
+✅ [step_def.Hooks] Browser initialized successfully
+   Platform: web
+   Environment: qa
+   Base URL: https://www.automationexercise.com
+✅ [WebPlatform] Page loaded: https://www.automationexercise.com/
+testuser-01@gmail.com
+test123
+Login button clicked
+Land in dashboard
+🔌 [step_def.Hooks] Closing Playwright after scenario...
+✅ [step_def.Hooks] Browser closed successfully
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.90 s -- in TestRunner
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[WARNING] Corrupted channel by directly writing to native stream in forked JVM 1. See FAQ web page and the dump file /Users/samirbhusal/Documents/Development/Playwright-BDD-Java-TestNG/target/surefire-reports/2026-08-26T16-18-59_070-jvmRun1.dumpstream
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.810 s
+[INFO] Finished at: 2026-08-26T16:19:11-05:00
+[INFO] ------------------------------------------------------------------------

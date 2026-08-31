@@ -41,3 +41,7 @@ build/
 
 ### project ###
 output/
+.allure
+test-output.log
+allure.properties
+

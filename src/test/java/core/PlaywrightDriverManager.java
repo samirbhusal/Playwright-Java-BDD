@@ -36,7 +36,7 @@ public class PlaywrightDriverManager extends BrowserFactory {
         playwright.set(Playwright.create());
         browser.set(getRandomBrowser(getPlaywright()));
         browserContext.set(getBrowser().newContext());
-        page.set(getBrowser().newPage());
+        page.set(getBrowserContext().newPage());
         getPage().navigate(ConfigLoader.getBaseUrl());
     }
 

@@ -1,11 +1,9 @@
 package modules;
 
-import interfaces.Web_Platform;
-
 public abstract class AbstractStepDefinitions {
-    protected Web_Platform webPlatform;
+    protected WebPlatform webPlatform;
 
     protected AbstractStepDefinitions() {
-        webPlatform = new WebPlatform();
+        this.webPlatform = new WebPlatform();
     }
 }

@@ -2,12 +2,15 @@ package step_def;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
+import modules.AbstractStepDefinitions;
 
 
-public class LoginSteps {
+public class LoginSteps extends AbstractStepDefinitions {
+
     @And("user enters the valid email as {string}")
     public void enterEmail(String email) {
-        System.out.println(email);
+        webPlatform.getPage().waitForTimeout(10000);
+        System.out.print(email);
     }
 
     @And("user enters the valid password as {string}")

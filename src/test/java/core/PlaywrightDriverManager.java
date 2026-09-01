@@ -11,6 +11,10 @@ public class PlaywrightDriverManager extends BrowserFactory {
     private static ThreadLocal<Browser> browser = new ThreadLocal<>();
     private static ThreadLocal<Page> page = new ThreadLocal<>();
 
+    protected PlaywrightDriverManager() {
+        // static-only utility, no instances
+    }
+
     public static Playwright getPlaywright() {
         return playwright.get();
     }

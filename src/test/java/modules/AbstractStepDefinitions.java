@@ -1,9 +1,8 @@
 package modules;
 
-public abstract class AbstractStepDefinitions {
-    protected WebPlatform webPlatform;
+import core.PlaywrightDriverManager;
 
-    protected AbstractStepDefinitions() {
-        this.webPlatform = new WebPlatform();
-    }
+public abstract class AbstractStepDefinitions extends PlaywrightDriverManager {
+
+
 }

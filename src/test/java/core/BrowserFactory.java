@@ -4,10 +4,16 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType.LaunchOptions;
 import com.microsoft.playwright.Playwright;
 
+import java.util.List;
+
 public class BrowserFactory {
 
     public static Browser getRandomBrowser(Playwright playwright) {
-        LaunchOptions options = new LaunchOptions().setHeadless(ConfigLoader.headless());
+        LaunchOptions options = new LaunchOptions()
+//                .setSlowMo(500)
+                .setArgs(List.of("--start-maximized"))
+                .setHeadless(ConfigLoader.headless());
+
 
         BrowserChoice browserName = BrowserChoice.random();
 

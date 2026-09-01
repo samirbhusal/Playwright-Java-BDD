@@ -3,9 +3,10 @@ package pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import modules.AbstractStepDefinitions;
 import org.testng.Assert;
 
-public class Dashboard {
+public class Dashboard extends AbstractStepDefinitions {
     private final Locator dashBoardTitle;
 
     public Dashboard(Page page) {

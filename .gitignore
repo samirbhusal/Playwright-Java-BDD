@@ -40,8 +40,9 @@ build/
 .DS_Store
 
 ### project ###
-output/
+output
 .allure
 test-output.log
 allure.properties
+allure-results
 

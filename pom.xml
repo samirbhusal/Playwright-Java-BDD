@@ -13,10 +13,9 @@
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <playwright.version>1.62.0</playwright.version>
-        <cucumber.version>7.33.0</cucumber.version>
+        <cucumber.version>7.34.4</cucumber.version>
         <testng.version>7.12.0</testng.version>
         <allure.version>2.35.4</allure.version>
-        <!--        <courgette.version>1.0.9</courgette.version>-->
         <gson.version>2.10.1</gson.version>
     </properties>
 
@@ -49,13 +48,13 @@
             <version>${testng.version}</version>
         </dependency>
 
-        <!--        &lt;!&ndash; Source: https://mvnrepository.com/artifact/io.github.longphamduc/courgette-jvm &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>io.github.longphamduc</groupId>-->
-        <!--            <artifactId>courgette-jvm</artifactId>-->
-        <!--            <version>{courgette.version}</version>-->
-        <!--            <scope>compile</scope>-->
-        <!--        </dependency>-->
+        <!-- Source: https://mvnrepository.com/artifact/io.github.prashant-ramcharan/courgette-jvm -->
+        <dependency>
+            <groupId>io.github.prashant-ramcharan</groupId>
+            <artifactId>courgette-jvm</artifactId>
+            <version>6.22.0</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- Source: https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>

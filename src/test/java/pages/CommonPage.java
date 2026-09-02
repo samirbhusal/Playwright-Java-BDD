@@ -16,6 +16,7 @@ public class CommonPage extends AbstractStepDefinitions {
 
 
     public void launch() {
+        page.navigate(ConfigLoader.getBaseUrl());
         page.waitForURL(ConfigLoader.getBaseUrl());
     }
 

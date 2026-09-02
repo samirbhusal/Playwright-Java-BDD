@@ -8,7 +8,7 @@ import java.util.List;
 
 public class BrowserFactory {
 
-    public static Browser getRandomBrowser(Playwright playwright) {
+    protected static Browser getRandomBrowser(Playwright playwright) {
         LaunchOptions options = new LaunchOptions()
 //                .setSlowMo(500)
                 .setArgs(List.of("--start-maximized"))
@@ -21,7 +21,7 @@ public class BrowserFactory {
     }
 
     // overloading
-    public static Browser getRandomBrowser(Playwright playwright, BrowserChoice browser, boolean headless) {
+    protected static Browser getRandomBrowser(Playwright playwright, BrowserChoice browser, boolean headless) {
         LaunchOptions options = new LaunchOptions().setHeadless(headless);
         return getChoosenBrowser(playwright, browser, options);
     }

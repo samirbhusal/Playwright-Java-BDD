@@ -11,10 +11,6 @@ public class PlaywrightDriverManager extends BrowserFactory {
     private static ThreadLocal<Browser> browser = new ThreadLocal<>();
     private static ThreadLocal<Page> page = new ThreadLocal<>();
 
-    protected PlaywrightDriverManager() {
-        // static-only utility, no instances
-    }
-
     public static Playwright getPlaywright() {
         return playwright.get();
     }
@@ -35,13 +31,19 @@ public class PlaywrightDriverManager extends BrowserFactory {
      * Initialize Playwright browser and navigate to base URL
      * Should be called in @BeforeMethod or @BeforeSuite
      */
-    public static void initBrowser() {
+    public static void initPlaywright() {
         // Playwright setup
-        playwright.set(Playwright.create());
-        browser.set(getRandomBrowser(getPlaywright()));
+        try {
+            playwright.set(Playwright.create());
+            browser.set(getRandomBrowser(getPlaywright()));
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Error while initializing playwright browser: " + e);
+        }
+    }
+
+    public static void intiBrowserContextAndPage() {
         browserContext.set(getBrowser().newContext());
         page.set(getBrowserContext().newPage());
-        getPage().navigate(ConfigLoader.getBaseUrl());
     }
 
     /**
@@ -85,14 +87,18 @@ public class PlaywrightDriverManager extends BrowserFactory {
         }
     }
 
+
     /**
-     * Complete cleanup - closes all Playwright resources in correct order
+     * Cleanup - closes  Playwright and browser resources in correct order
      * Should be called in @AfterMethod or @AfterSuite
      */
-    public static void closeBrowserInstance() {
-        closePage();
-        closeBrowserContext();
+    public static void closePlaywrightInstance() {
         closeBrowser();
         closePlaywright();
+    }
+
+    public static void closeContextAndPage() {
+        closePage();
+        closeBrowserContext();
     }
 }

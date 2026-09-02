@@ -43,6 +43,5 @@ build/
 output
 .allure
 test-output.log
-allure.properties
 allure-results
 

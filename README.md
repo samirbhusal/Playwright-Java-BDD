@@ -1,12 +1,15 @@
 # Playwright-Java-BDD
 
-Playwright Java + Cucumber BDD + TestNG test automation framework.
+Playwright Java + Cucumber BDD + TestNG test automation framework, running scenarios in parallel via Courgette,
+with Allure reporting.
 
 ## Stack
 
 - Playwright Java `1.62.0`
-- Cucumber `7.33.0` (cucumber-java, cucumber-testng)
+- Cucumber `7.34.4` (cucumber-java, cucumber-testng)
 - TestNG `7.12.0`
+- Courgette-JVM `6.22.0` (parallel scenario execution on top of TestNG)
+- Allure `2.35.4` (allure-cucumber7-jvm + allure-maven)
 - Gson `2.10.1` (config file parsing)
 - Java 25
 
@@ -14,43 +17,49 @@ Playwright Java + Cucumber BDD + TestNG test automation framework.
 
 ```
 src/test/java/
-├── TestRunner.java              # Cucumber-TestNG entry point, glue = {step_def}
+├── TestRunner.java              # Courgette/TestNG entry point, glue = {step_def}, runs @TES-001
 ├── core/
 │   ├── ConfigLoader.java        # Reads Run.Config and Environment.config
 │   ├── BrowserChoice.java       # Enum: CHROME, EDGE, FIREFOX, WEBKIT
 │   ├── BrowserFactory.java      # Picks a random browser from BrowserChoice and launches it
 │   └── PlaywrightDriverManager.java  # Thread-local Playwright/Browser/Context/Page lifecycle
 ├── interfaces/
-│   ├── WebActions.java          # launch()
-│   ├── WebValidations.java      # (empty, placeholder)
-│   └── Web_Platform.java        # extends WebActions + WebValidations
+│   ├── WebActions.java          # launch(), clickButton() — not yet implemented anywhere
+│   └── WebValidations.java      # verifyLandingPage(), verifyUrl() — not yet implemented anywhere
 ├── modules/
-│   ├── WebPlatform.java         # implements Web_Platform, wraps the Playwright Page
-│   └── AbstractStepDefinitions.java  # base class, holds a Web_Platform instance
+│   └── AbstractStepDefinitions.java  # base class step defs extend, exposes PlaywrightDriverManager
 ├── pages/
-│   └── LoginPage.java           # empty page object (WIP)
+│   ├── CommonPage.java           # launch(), clickButton(), verifyUrl()
+│   ├── LoginPage.java            # login page locators + actions
+│   └── Dashboard.java            # post-login dashboard assertions
 └── step_def/
-    ├── Hooks.java                # @Before initBrowser(), @After closeBrowserInstance()
-    ├── CommonSteps.java          # "user launches the web app", "user clicks the login button"
-    └── LoginSteps.java           # login step definitions (currently just print statements)
+    ├── Hooks.java                 # @BeforeAll/@AfterAll (Playwright instance), @Before/@After (context+page)
+    ├── CommonSteps.java           # app launch + landing page steps
+    ├── LoginSteps.java            # login flow steps
+    └── DashboardSteps.java        # empty, placeholder
 
 src/test/resources/
 ├── configs/
 │   ├── Run.Config                # platform + environment selection
 │   └── Environment.config        # baseUrl per environment (qa, stg)
 └── features/
-    └── login.feature             # single scenario: Valid Login, tag @TES-001
+    └── login.feature             # login feature, tag @TES-001
 ```
 
 ## How it fits together
 
-1. `TestRunner` runs Cucumber via TestNG, loading glue code from `step_def`.
-2. Before each scenario, `Hooks.setUp()` calls `PlaywrightDriverManager.initBrowser()`, which:
-    - reads `platform`/`env` from `Run.Config`
-    - reads `baseUrl` for that env from `Environment.config`
-    - picks a random browser (`BrowserFactory`) and opens it, navigating to `baseUrl`
-3. Step definitions get the page via `PlaywrightDriverManager.getPage()`.
-4. After each scenario, `Hooks.tearDown()` closes the page, context, browser, and Playwright instance.
+1. `TestRunner` runs Cucumber through Courgette on TestNG (`runLevel = SCENARIO`), loading glue code from `step_def`.
+2. Once per thread/suite, `Hooks.beforeSuite()` calls `PlaywrightDriverManager.initPlaywright()`, which creates a
+   `Playwright` instance and launches a randomly chosen browser (`BrowserFactory` + `BrowserChoice`).
+3. Before each scenario, `Hooks.setUp()` calls `intiBrowserContextAndPage()` to open a fresh `BrowserContext`/`Page`.
+4. `ConfigLoader` reads `platform`/`env` from `Run.Config` and resolves `baseUrl` for that env from
+   `Environment.config`; page objects use it to navigate.
+5. Step definitions drive page objects (`CommonPage`, `LoginPage`, `Dashboard`), which get the current `Page` via
+   `PlaywrightDriverManager.getPage()`.
+6. After each scenario, `Hooks.tearDown()` closes the context and page; after the suite, `Hooks.afterSuite()` closes
+   the browser and Playwright instance.
+
+All Playwright/browser state is thread-local, so each Courgette thread gets its own isolated browser.
 
 ## Config files
 
@@ -64,12 +73,23 @@ src/test/resources/
 mvn test
 ```
 
-This runs `TestRunner`, which executes scenarios tagged `@TES-001` in `login.feature`.
+This runs `TestRunner` (Courgette + TestNG), executing scenarios tagged `@TES-001` in `login.feature`. Cucumber JSON
+and JUnit XML land in `output/`, and Allure results are written to `output/allure-results`.
+
+## Reports
+
+Allure results generate during `mvn test` (via `allure-maven`). To view the report:
+
+```
+mvn allure:report   # writes HTML to output/allure-report
+mvn allure:serve     # builds and opens a live report
+```
 
 ## Current state / known gaps
 
-- `LoginPage.java` is empty — no locators or page methods yet.
-- `LoginSteps.java` step definitions only print to console, no real Playwright actions wired in.
-- `WebValidations` interface is empty — no assertion helpers defined yet.
-- Only one platform implementation (`WebPlatform`) exists; the `Web_Platform` interface is written for future
-  implementations (mobile, API, etc.) but nothing else implements it yet.
+- `WebActions` / `WebValidations` interfaces exist but nothing implements them yet — page objects have similar
+  methods directly, not through the interfaces.
+- `DashboardSteps.java` is empty — dashboard step definitions still live in `LoginSteps.java`.
+- `BrowserChoice.EDGE` exists but `BrowserFactory` doesn't launch it yet (commented out).
+- The "land in dashboard" scenario steps are commented out in `login.feature`; the login flow currently stops after
+  entering credentials.

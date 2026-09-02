@@ -14,7 +14,7 @@ import courgette.api.testng.TestNGCourgette;
                         "junit:output/TEST-report.xml",
                         "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"},
                 monochrome = true,
-                tags = {"@TES-001"}
+                tags = {"@regression"}
         )
 )
 

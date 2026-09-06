@@ -1,10 +1,8 @@
 package step_def;
 
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import modules.AbstractStepDefinitions;
-import pages.Dashboard;
 import pages.LoginPage;
 
 
@@ -13,7 +11,7 @@ public class LoginSteps extends AbstractStepDefinitions {
     LoginPage loginPage = new LoginPage();
 
     @And("user should be navigated to login page")
-    public void verifyLoginPage(){
+    public void verifyLoginPage() {
         loginPage.verifyLoginPage();
     }
 
@@ -30,11 +28,6 @@ public class LoginSteps extends AbstractStepDefinitions {
     @When("user clicks the login button")
     public void clickLoginButton() {
         loginPage.clickLoginButton();
-    }
-
-    @Then("user should land in dashboard")
-    public void landInDashboard() {
-        new Dashboard(getPage()).dashboardTitle("Website for automation practice");
     }
 
 }

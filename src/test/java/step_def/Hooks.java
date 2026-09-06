@@ -6,6 +6,8 @@ import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 
+import static core.ConfigLoader.isPlatform;
+
 public class Hooks {
 
     @BeforeAll
@@ -21,12 +23,14 @@ public class Hooks {
      * Run before each Cucumber scenario
      * Initializes Playwright browser
      */
-    @Before
+    @Before()
     public void setUp() {
-        try {
-            PlaywrightDriverManager.intiBrowserContextAndPage();
-        } catch (Exception e) {
-            System.out.println("Error initializing Browser context and page : \n" + e.getMessage());
+        if (isPlatform("web")) {
+            try {
+                PlaywrightDriverManager.intiBrowserContextAndPage();
+            } catch (Exception e) {
+                System.out.println("Error initializing Browser context and page : \n" + e.getMessage());
+            }
         }
     }
 

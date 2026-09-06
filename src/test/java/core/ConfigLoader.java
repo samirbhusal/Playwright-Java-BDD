@@ -48,6 +48,10 @@ public class ConfigLoader {
         return runConfig.get("platform").getAsString();
     }
 
+    public static boolean isPlatform(String platform) {
+        return platform.equalsIgnoreCase(runConfig.get("platform").getAsString());
+    }
+
     /**
      * Get the environment from Run.Config (e.g., "qa", "stg")
      */

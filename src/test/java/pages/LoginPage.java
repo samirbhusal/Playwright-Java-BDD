@@ -3,8 +3,10 @@ package pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import core.PlaywrightDriverManager;
 import modules.AbstractStepDefinitions;
 import org.testng.Assert;
+
 
 public class LoginPage extends AbstractStepDefinitions {
     private final Page page;
@@ -14,7 +16,7 @@ public class LoginPage extends AbstractStepDefinitions {
     private final Locator loginToYourAccountHeading;
 
     public LoginPage() {
-        this.page = getPage();
+        this.page = PlaywrightDriverManager.getPage();
         this.loginButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login"));
         this.loginEmailField = page.getByPlaceholder("Email Address").first();
         this.loginPasswordField = page.getByPlaceholder("Password");

@@ -44,4 +44,5 @@ output
 .allure
 test-output.log
 allure-results
+INTERVIEW_PREP.md
 

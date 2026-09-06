@@ -1,15 +1,17 @@
 package core;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlaywrightDriverManager extends BrowserFactory {
     private static ThreadLocal<Playwright> playwright = new ThreadLocal<>();
     private static ThreadLocal<BrowserContext> browserContext = new ThreadLocal<>();
     private static ThreadLocal<Browser> browser = new ThreadLocal<>();
     private static ThreadLocal<Page> page = new ThreadLocal<>();
+
+    private static ThreadLocal<APIRequestContext> request = new ThreadLocal<>();
 
     public static Playwright getPlaywright() {
         return playwright.get();
@@ -44,6 +46,19 @@ public class PlaywrightDriverManager extends BrowserFactory {
     public static void intiBrowserContextAndPage() {
         browserContext.set(getBrowser().newContext());
         page.set(getBrowserContext().newPage());
+    }
+
+    public static void initAPIRequestContext() {
+        try {
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Accept", "application/json");
+            request.set(getPlaywright().request().newContext(new APIRequest.NewContextOptions()
+                    .setBaseURL("")
+                    .setExtraHTTPHeaders(headers)
+            ));
+        } catch (Exception e) {
+            throw new RuntimeException("Error while initializing playwright request context" + e.getStackTrace());
+        }
     }
 
     /**

@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import core.ConfigLoader;
+import core.PlaywrightDriverManager;
 import modules.AbstractStepDefinitions;
 import org.testng.Assert;
 
@@ -11,7 +12,7 @@ public class CommonPage extends AbstractStepDefinitions {
     private Page page;
 
     public CommonPage() {
-        this.page = getPage();
+        this.page = PlaywrightDriverManager.getPage();
     }
 
 
@@ -33,7 +34,7 @@ public class CommonPage extends AbstractStepDefinitions {
     }
 
     public void verifyUrl(String url) {
-        Assert.assertEquals(getPage().url(), url);
+        Assert.assertEquals(page.url(), url);
     }
 
 }

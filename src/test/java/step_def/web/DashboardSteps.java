@@ -1,4 +1,4 @@
-package step_def;
+package step_def.web;
 
 import modules.AbstractStepDefinitions;
 

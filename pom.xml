@@ -48,14 +48,6 @@
             <version>${testng.version}</version>
         </dependency>
 
-        <!-- Source: https://mvnrepository.com/artifact/io.github.prashant-ramcharan/courgette-jvm -->
-        <dependency>
-            <groupId>io.github.prashant-ramcharan</groupId>
-            <artifactId>courgette-jvm</artifactId>
-            <version>6.22.0</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!-- Source: https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -86,6 +78,9 @@
                 <configuration>
                     <!-- let the build reach the allure-maven report goal even when scenarios fail -->
                     <testFailureIgnore>true</testFailureIgnore>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
             </plugin>
 

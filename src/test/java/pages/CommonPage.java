@@ -5,17 +5,21 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import core.ConfigLoader;
 import core.PlaywrightDriverManager;
+import interfaces.CommonActions;
 import modules.AbstractStepDefinitions;
-import org.testng.Assert;
 
-public class CommonPage extends AbstractStepDefinitions {
+import java.util.regex.Pattern;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+
+public class CommonPage extends AbstractStepDefinitions implements CommonActions {
     private Page page;
 
     public CommonPage() {
         this.page = PlaywrightDriverManager.getPage();
     }
 
-
+    @Override
     public void launch() {
         page.navigate(ConfigLoader.getBaseUrl());
         page.waitForURL(ConfigLoader.getBaseUrl());
@@ -26,7 +30,7 @@ public class CommonPage extends AbstractStepDefinitions {
             case "Signup / Login" -> page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName(buttonName));
             default -> throw new RuntimeException("Button " + buttonName + " not found");
         };
-        Assert.assertTrue(locator.isVisible());
+        assertThat(locator).isVisible();
         locator.click();
     }
 
@@ -34,7 +38,7 @@ public class CommonPage extends AbstractStepDefinitions {
     }
 
     public void verifyUrl(String url) {
-        Assert.assertEquals(page.url(), url);
+        assertThat(page).hasURL(Pattern.compile(url));
     }
 
 }

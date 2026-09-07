@@ -1,4 +1,4 @@
-package step_def;
+package step_def.web;
 
 import core.ConfigLoader;
 import io.cucumber.java.en.Given;

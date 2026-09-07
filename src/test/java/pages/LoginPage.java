@@ -7,6 +7,10 @@ import core.PlaywrightDriverManager;
 import modules.AbstractStepDefinitions;
 import org.testng.Assert;
 
+import java.util.regex.Pattern;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+
 
 public class LoginPage extends AbstractStepDefinitions {
     private final Page page;
@@ -24,7 +28,7 @@ public class LoginPage extends AbstractStepDefinitions {
     }
 
     public void verifyLoginPage() {
-        Assert.assertTrue(page.url().contains("login"));
+        assertThat(page).hasURL(Pattern.compile("login"));
         Assert.assertTrue(loginToYourAccountHeading.isVisible());
     }
 

@@ -29,6 +29,10 @@ public class PlaywrightDriverManager extends BrowserFactory {
         return page.get();
     }
 
+    public static APIRequestContext getRequest() {
+        return request.get();
+    }
+
     /**
      * Initialize Playwright browser and navigate to base URL
      * Should be called in @BeforeMethod or @BeforeSuite
@@ -37,13 +41,13 @@ public class PlaywrightDriverManager extends BrowserFactory {
         // Playwright setup
         try {
             playwright.set(Playwright.create());
-            browser.set(getRandomBrowser(getPlaywright()));
         } catch (RuntimeException e) {
             throw new RuntimeException("Error while initializing playwright browser: " + e);
         }
     }
 
     public static void intiBrowserContextAndPage() {
+        browser.set(getBrowser(getPlaywright()));
         browserContext.set(getBrowser().newContext());
         page.set(getBrowserContext().newPage());
     }
@@ -53,7 +57,7 @@ public class PlaywrightDriverManager extends BrowserFactory {
             Map<String, String> headers = new HashMap<>();
             headers.put("Accept", "application/json");
             request.set(getPlaywright().request().newContext(new APIRequest.NewContextOptions()
-                    .setBaseURL("")
+                    .setBaseURL("https://reqres.in")
                     .setExtraHTTPHeaders(headers)
             ));
         } catch (Exception e) {
@@ -108,12 +112,12 @@ public class PlaywrightDriverManager extends BrowserFactory {
      * Should be called in @AfterMethod or @AfterSuite
      */
     public static void closePlaywrightInstance() {
-        closeBrowser();
         closePlaywright();
     }
 
     public static void closeContextAndPage() {
         closePage();
         closeBrowserContext();
+        closeBrowser();
     }
 }

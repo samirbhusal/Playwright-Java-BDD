@@ -1,4 +1,4 @@
-package step_def;
+package step_def.web;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;

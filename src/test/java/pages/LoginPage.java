@@ -5,7 +5,6 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import core.PlaywrightDriverManager;
 import modules.AbstractStepDefinitions;
-import org.testng.Assert;
 
 import java.util.regex.Pattern;
 
@@ -29,15 +28,17 @@ public class LoginPage extends AbstractStepDefinitions {
 
     public void verifyLoginPage() {
         assertThat(page).hasURL(Pattern.compile("login"));
-        Assert.assertTrue(loginToYourAccountHeading.isVisible());
+        assertThat(loginToYourAccountHeading).isVisible();
     }
 
     public void enterEmail(String email) {
+        assertThat(loginEmailField).isVisible();
         loginEmailField.clear();
         loginEmailField.type(email);
     }
 
     public void enterPassword(String password) {
+        assertThat(loginPasswordField).isVisible();
         loginPasswordField.clear();
         loginPasswordField.type(password);
     }
@@ -49,6 +50,7 @@ public class LoginPage extends AbstractStepDefinitions {
     }
 
     public void clickLoginButton() {
+        assertThat(loginButton).isVisible();
         loginButton.click();
     }
 

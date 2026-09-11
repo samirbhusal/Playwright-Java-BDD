@@ -33,26 +33,36 @@ public class PlaywrightDriverManager extends BrowserFactory {
         return request.get();
     }
 
-    /**
-     * Initialize Playwright browser and navigate to base URL
-     * Should be called in @BeforeMethod or @BeforeSuite
-     */
+    
     public static void initPlaywright() {
-        // Playwright setup
         try {
             playwright.set(Playwright.create());
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Error while initializing playwright browser: " + e);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while initializing Playwright: " + e.getMessage(), e);
         }
     }
 
-    public static void intiBrowserContextAndPage() {
-        browser.set(getBrowser(getPlaywright()));
-        browserContext.set(getBrowser().newContext());
-        page.set(getBrowserContext().newPage());
+    public static void initBrowser() {
+        initPlaywright();
+        try {
+            browser.set(getBrowser(getPlaywright()));
+        } catch (Exception e) {
+            throw new RuntimeException("Error while launching browser: " + e.getMessage(), e);
+        }
+    }
+
+    public static void initBrowserContextAndPage() {
+        initBrowser();
+        try {
+            browserContext.set(getBrowser().newContext());
+            page.set(getBrowserContext().newPage());
+        } catch (Exception e) {
+            throw new RuntimeException("Error while creating browser context/page: " + e.getMessage(), e);
+        }
     }
 
     public static void initAPIRequestContext() {
+        initPlaywright();
         try {
             Map<String, String> headers = new HashMap<>();
             headers.put("Accept", "application/json");
@@ -61,7 +71,17 @@ public class PlaywrightDriverManager extends BrowserFactory {
                     .setExtraHTTPHeaders(headers)
             ));
         } catch (Exception e) {
-            throw new RuntimeException("Error while initializing playwright request context" + e.getStackTrace());
+            throw new RuntimeException("Error while initializing playwright request context: " + e.getMessage(), e);
+        }
+    }
+
+    public static void closeAPIRequestContext() {
+        if (request.get() != null) {
+            try {
+                request.get().dispose();
+            } finally {
+                request.remove();
+            }
         }
     }
 
@@ -71,8 +91,11 @@ public class PlaywrightDriverManager extends BrowserFactory {
      */
     public static void closePage() {
         if (page.get() != null) {
-            page.get().close();
-            page.remove();
+            try {
+                page.get().close();
+            } finally {
+                page.remove();
+            }
         }
     }
 
@@ -81,8 +104,11 @@ public class PlaywrightDriverManager extends BrowserFactory {
      */
     public static void closeBrowserContext() {
         if (browserContext.get() != null) {
-            browserContext.get().close();
-            browserContext.remove();
+            try {
+                browserContext.get().close();
+            } finally {
+                browserContext.remove();
+            }
         }
     }
 
@@ -91,8 +117,11 @@ public class PlaywrightDriverManager extends BrowserFactory {
      */
     public static void closeBrowser() {
         if (browser.get() != null) {
-            browser.get().close();
-            browser.remove();
+            try {
+                browser.get().close();
+            } finally {
+                browser.remove();
+            }
         }
     }
 
@@ -101,23 +130,19 @@ public class PlaywrightDriverManager extends BrowserFactory {
      */
     public static void closePlaywright() {
         if (playwright.get() != null) {
-            playwright.get().close();
-            playwright.remove();
+            try {
+                playwright.get().close();
+            } finally {
+                playwright.remove();
+            }
         }
     }
 
-
     /**
-     * Cleanup - closes  Playwright and browser resources in correct order
-     * Should be called in @AfterMethod or @AfterSuite
+     * Close this scenario's page and context.
      */
-    public static void closePlaywrightInstance() {
-        closePlaywright();
-    }
-
     public static void closeContextAndPage() {
         closePage();
         closeBrowserContext();
-        closeBrowser();
     }
 }

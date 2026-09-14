@@ -52,11 +52,15 @@ public class ConfigLoader {
         return platform.equalsIgnoreCase(runConfig.get("platform").getAsString());
     }
 
+    private static JsonObject platformValues() {
+        return runConfig.getAsJsonObject("platformValues");
+    }
+
     /**
      * Get the environment from Run.Config (e.g., "qa", "stg")
      */
     public static String getEnv() {
-        return runConfig.getAsJsonObject("platformValues").get("env").getAsString();
+        return platformValues().get("env").getAsString();
     }
 
     /**
@@ -78,15 +82,10 @@ public class ConfigLoader {
     }
 
     /**
-     * Check if headless mode is enabled
-     * Priority: System property (-Dheadless=true/false) > CI environment > default false
+     * Check if headless mode is enabled, per Run.Config's platformValues.headless
      */
     public static boolean headless() {
-        String explicit = System.getProperty("headless");
-        if (explicit != null) {
-            return Boolean.parseBoolean(explicit);   // -Dheadless=true/false wins
-        }
-        return false;          // else: headless in CI, headed locally
+        return platformValues().get("headless").getAsBoolean();
     }
 
     /**

@@ -28,7 +28,7 @@ public class CommonPage extends AbstractStepDefinitions implements CommonActions
     public void clickButton(String buttonName) {
         Locator locator = switch (buttonName) {
             case "Signup / Login" -> page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName(buttonName));
-            default -> throw new RuntimeException("Button " + buttonName + " not found");
+            default -> throw new RuntimeException("Button - " + buttonName + " not found");
         };
         assertThat(locator).isVisible();
         locator.click();

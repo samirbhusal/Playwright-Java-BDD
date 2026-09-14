@@ -4,7 +4,6 @@ import java.util.Random;
 
 public enum BrowserChoice {
     CHROME,
-    EDGE,
     FIREFOX,
     WEBKIT;
 

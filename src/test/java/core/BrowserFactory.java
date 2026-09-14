@@ -8,7 +8,7 @@ import java.util.List;
 
 public class BrowserFactory {
 
-    protected static Browser getBrowser(Playwright playwright) {
+    protected static Browser getRandomSelectedBrowser(Playwright playwright) {
         LaunchOptions options = new LaunchOptions()
 //                .setSlowMo(500)
                 .setArgs(List.of("--start-maximized"))
@@ -17,24 +17,15 @@ public class BrowserFactory {
 
         BrowserChoice browserName = BrowserChoice.random();
 
-        return getChoosenBrowser(playwright, browserName, options);
+        return getSelectedBrowser(playwright, browserName, options);
     }
 
-    // overloading
-    protected static Browser getBrowser(Playwright playwright, BrowserChoice browser, boolean headless) {
-        LaunchOptions options = new LaunchOptions().setHeadless(headless);
-        return getChoosenBrowser(playwright, browser, options);
-    }
-
-    // custom common method to get Browser
-    private static Browser getChoosenBrowser(Playwright playwright, BrowserChoice name, LaunchOptions options) {
+    private static Browser getSelectedBrowser(Playwright playwright, BrowserChoice name, LaunchOptions options) {
         switch (name) {
             case FIREFOX:
                 return playwright.firefox().launch(options);
             case WEBKIT:
                 return playwright.webkit().launch(options);
-//            case EDGE:
-//                return playwright.chromium().launch(options.setChannel("edge"));
             case CHROME:
             default:
                 return playwright.chromium().launch(options.setChannel("chrome"));

@@ -5,7 +5,9 @@ import com.microsoft.playwright.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlaywrightDriverManager extends BrowserFactory {
+import static core.BrowserFactory.getRandomSelectedBrowser;
+
+public class PlaywrightDriverManager {
     private static ThreadLocal<Playwright> playwright = new ThreadLocal<>();
     private static ThreadLocal<BrowserContext> browserContext = new ThreadLocal<>();
     private static ThreadLocal<Browser> browser = new ThreadLocal<>();
@@ -33,7 +35,7 @@ public class PlaywrightDriverManager extends BrowserFactory {
         return request.get();
     }
 
-    
+
     public static void initPlaywright() {
         try {
             playwright.set(Playwright.create());
@@ -45,7 +47,7 @@ public class PlaywrightDriverManager extends BrowserFactory {
     public static void initBrowser() {
         initPlaywright();
         try {
-            browser.set(getBrowser(getPlaywright()));
+            browser.set(getRandomSelectedBrowser(getPlaywright()));
         } catch (Exception e) {
             throw new RuntimeException("Error while launching browser: " + e.getMessage(), e);
         }

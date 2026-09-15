@@ -14,7 +14,7 @@ Feature: User Login
 
   @TES-002
   Scenario: Invalid Login
-    Given user clicks the "Signup / Login" button
+    Given user clicks the "Signup / Logins" button
     And user should be navigated to login page
     And user enters the valid email as "testuser-01@gmail.com"
     And user enters the valid password as "test123"

@@ -4,6 +4,7 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import core.PlaywrightDriverManager;
+import exceptions.FrameworkException;
 import modules.AbstractStepDefinitions;
 
 import java.util.regex.Pattern;
@@ -27,31 +28,52 @@ public class LoginPage extends AbstractStepDefinitions {
     }
 
     public void verifyLoginPage() {
-        assertThat(page).hasURL(Pattern.compile("login"));
-        assertThat(loginToYourAccountHeading).isVisible();
+        try {
+            assertThat(page).hasURL(Pattern.compile("login"));
+            assertThat(loginToYourAccountHeading).isVisible();
+        } catch (Exception e) {
+            throw new FrameworkException("Error verifying Login page", e);
+        }
+
     }
 
     public void enterEmail(String email) {
-        assertThat(loginEmailField).isVisible();
-        loginEmailField.clear();
-        loginEmailField.type(email);
+        try {
+            assertThat(loginEmailField).isVisible();
+            loginEmailField.clear();
+            loginEmailField.type(email);
+        } catch (Exception e) {
+            throw new FrameworkException("Error verifying entering email in login page", e);
+        }
     }
 
     public void enterPassword(String password) {
-        assertThat(loginPasswordField).isVisible();
-        loginPasswordField.clear();
-        loginPasswordField.type(password);
+        try {
+            assertThat(loginPasswordField).isVisible();
+            loginPasswordField.clear();
+            loginPasswordField.type(password);
+        } catch (Exception e) {
+            throw new FrameworkException("Error verifying entering password in login page", e);
+        }
     }
 
     public void login(String email, String password) {
-        enterEmail(email);
-        enterPassword(password);
-        clickLoginButton();
+        try {
+            enterEmail(email);
+            enterPassword(password);
+            clickLoginButton();
+        } catch (Exception e) {
+            throw new FrameworkException("Error while login", e);
+        }
     }
 
     public void clickLoginButton() {
-        assertThat(loginButton).isVisible();
-        loginButton.click();
+        try {
+            assertThat(loginButton).isVisible();
+            loginButton.click();
+        } catch (Exception e) {
+            throw new FrameworkException("Error while clicking login button", e);
+        }
     }
 
 

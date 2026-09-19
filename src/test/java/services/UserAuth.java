@@ -2,7 +2,6 @@ package services;
 
 import com.microsoft.playwright.APIRequestContext;
 import core.PlaywrightDriverManager;
-import interfaces.CommonActions;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 

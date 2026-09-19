@@ -2,32 +2,33 @@ package step_def.web;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
-import modules.AbstractStepDefinitions;
-import pages.LoginPage;
+import modules.AbstractWebStepDefinitions;
 
 
-public class LoginSteps extends AbstractStepDefinitions {
+public class LoginSteps extends AbstractWebStepDefinitions {
 
-    LoginPage loginPage = new LoginPage();
+    public LoginSteps() {
+        super();
+    }
 
     @And("user should be navigated to login page")
     public void verifyLoginPage() {
-        loginPage.verifyLoginPage();
+        pageFactory.loginPage().verifyLoginPage();
     }
 
     @And("user enters the valid email as {string}")
     public void enterEmail(String email) {
-        loginPage.enterEmail(email);
+        pageFactory.loginPage().enterEmail(email);
     }
 
     @And("user enters the valid password as {string}")
     public void enterPassword(String password) {
-        loginPage.enterPassword(password);
+        pageFactory.loginPage().enterPassword(password);
     }
 
     @When("user clicks the login button")
     public void clickLoginButton() {
-        loginPage.clickLoginButton();
+        pageFactory.loginPage().clickLoginButton();
     }
 
 }

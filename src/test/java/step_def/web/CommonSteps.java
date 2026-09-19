@@ -3,25 +3,27 @@ package step_def.web;
 import core.ConfigLoader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import pages.CommonPage;
+import modules.AbstractWebStepDefinitions;
 
-public class CommonSteps {
+public class CommonSteps extends AbstractWebStepDefinitions {
 
-    CommonPage commonPage = new CommonPage();
+    public CommonSteps() {
+        super();
+    }
 
     @Given("user launches the web app")
     public void launchWebApp() {
-        commonPage.launch();
+        pageFactory.commonPage().launch();
     }
 
     @When("user verifies the landing page")
     public void verifyLandingPage() {
-        commonPage.verifyUrl(ConfigLoader.getBaseUrl() + "/");
-        commonPage.verifyLandingPage();
+        pageFactory.commonPage().verifyUrl(ConfigLoader.getBaseUrl() + "/");
+        pageFactory.commonPage().verifyLandingPage();
     }
 
     @Given("user clicks the {string} button")
     public void clickTheButton(String button) {
-        commonPage.clickButton(button);
+        pageFactory.commonPage().clickButton(button);
     }
 }

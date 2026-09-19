@@ -5,14 +5,13 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import core.PlaywrightDriverManager;
 import exceptions.FrameworkException;
-import modules.AbstractStepDefinitions;
 
 import java.util.regex.Pattern;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 
-public class LoginPage extends AbstractStepDefinitions {
+public class LoginPage {
     private final Page page;
     private final Locator loginButton;
     private final Locator loginEmailField;

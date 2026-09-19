@@ -6,21 +6,19 @@ import com.microsoft.playwright.options.AriaRole;
 import core.ConfigLoader;
 import core.PlaywrightDriverManager;
 import exceptions.FrameworkException;
-import interfaces.CommonActions;
-import modules.AbstractStepDefinitions;
 
 import java.util.regex.Pattern;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class CommonPage extends AbstractStepDefinitions implements CommonActions {
+public class CommonPage {
     private Page page;
 
     public CommonPage() {
         this.page = PlaywrightDriverManager.getPage();
     }
 
-    @Override
+
     public void launch() {
         try {
             page.navigate(ConfigLoader.getBaseUrl());

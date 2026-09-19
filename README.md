@@ -130,7 +130,7 @@ step definition or page object; keeping the logic in one hook is the deliberate 
 - `DashboardSteps.java` is empty and `Dashboard.java` isn't wired into any feature yet. `Dashboard`'s constructor
   also takes a `Page` argument it ignores, reading from `PlaywrightDriverManager` instead.
 - `Run.api.config` is unused — `ConfigLoader` is hardcoded to `Run.Config`.
-- `AbstractStepDefinitions` is currently an empty marker class — step defs and page objects extend it, but it
+- `AbstractWebStepDefinitions` is currently an empty marker class — step defs and page objects extend it, but it
   holds no shared behavior yet.
 - `ConfigLoader.headless()` ignores CI detection despite its javadoc claiming otherwise — it returns `false`
   unless `-Dheadless` is passed explicitly.

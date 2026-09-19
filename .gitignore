@@ -47,4 +47,6 @@ allure-results
 INTERVIEW_PREP.md
 CLAUDE.md
 docs/
+graphify-out/
+.claude/
 

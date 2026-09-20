@@ -1,6 +1,7 @@
 package core;
 
 import com.microsoft.playwright.*;
+import exceptions.FrameworkException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -95,6 +96,8 @@ public class PlaywrightDriverManager {
         if (page.get() != null) {
             try {
                 page.get().close();
+            } catch (Exception e) {
+                throw new FrameworkException("Error while closing playwright page: " + e.getMessage(), e);
             } finally {
                 page.remove();
             }
@@ -108,6 +111,8 @@ public class PlaywrightDriverManager {
         if (browserContext.get() != null) {
             try {
                 browserContext.get().close();
+            } catch (Exception e) {
+                throw new FrameworkException("Error while closing playwright browser context: " + e.getMessage(), e);
             } finally {
                 browserContext.remove();
             }
@@ -121,6 +126,8 @@ public class PlaywrightDriverManager {
         if (browser.get() != null) {
             try {
                 browser.get().close();
+            } catch (Exception e) {
+                throw new FrameworkException("Error while closing playwright browser: " + e.getMessage(), e);
             } finally {
                 browser.remove();
             }
@@ -134,6 +141,8 @@ public class PlaywrightDriverManager {
         if (playwright.get() != null) {
             try {
                 playwright.get().close();
+            } catch (Exception e) {
+                throw new FrameworkException("Error while closing Playwright: " + e.getMessage(), e);
             } finally {
                 playwright.remove();
             }

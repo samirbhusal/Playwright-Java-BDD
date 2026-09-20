@@ -1,8 +1,8 @@
 package step_def.web;
 
-import modules.AbstractStepDefinitions;
+import modules.web.AbstractWebStepDefinitions;
 
-public class DashboardSteps extends AbstractStepDefinitions {
+public class DashboardSteps extends AbstractWebStepDefinitions {
 
 
 }

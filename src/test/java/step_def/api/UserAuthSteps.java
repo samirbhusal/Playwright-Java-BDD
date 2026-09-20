@@ -1,14 +1,13 @@
 package step_def.api;
 
 import io.cucumber.java.en.Given;
-import services.UserAuth;
+import modules.api.AbstractApiStepDefinition;
 
-public class UserAuthSteps {
+public class UserAuthSteps extends AbstractApiStepDefinition {
 
-    UserAuth userAuth = new UserAuth();
 
     @Given("API environment is set up")
     public void launchAPIEnvironment() {
-        userAuth.launch();
+        apiServices().userAuth().launch();
     }
 }

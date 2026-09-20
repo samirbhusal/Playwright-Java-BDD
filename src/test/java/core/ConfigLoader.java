@@ -2,11 +2,13 @@ package core;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import helper.PlatformType;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 public class ConfigLoader {
     private static final Gson gson = new Gson();
@@ -44,8 +46,13 @@ public class ConfigLoader {
     /**
      * Get the platform from Run.Config (e.g., "web")
      */
-    public static String getPlatform() {
-        return runConfig.get("platform").getAsString();
+    public static PlatformType getPlatformType() {
+        String value = runConfig.getAsJsonPrimitive("platform").getAsString();
+        try {
+            return PlatformType.valueOf(value.trim().toUpperCase(Locale.ENGLISH));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Unsupported platform in Run.Config:" + value, e);
+        }
     }
 
     public static boolean isPlatform(String platform) {

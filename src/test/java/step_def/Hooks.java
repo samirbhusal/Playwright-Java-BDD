@@ -1,28 +1,32 @@
 package step_def;
 
+import core.ConfigLoader;
+import helper.PlatformType;
+import interfaces.PlatformSession;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.qameta.allure.Allure;
+import modules.PlatformFactory;
 
 import java.io.ByteArrayInputStream;
 
-import static core.ConfigLoader.isPlatform;
-import static core.PlaywrightDriverManager.*;
+import static core.PlaywrightDriverManager.getPage;
 
 public class Hooks {
 
+    PlatformSession platformSession;
+
     @Before()
     public void setUp() {
-        if (isPlatform("web")) initBrowserContextAndPage();
-        else if (isPlatform("api")) initAPIRequestContext();
-
+        platformSession = PlatformFactory.createSession(ConfigLoader.getPlatformType());
+        platformSession.start();
     }
 
 
     @After
     public void tearDown(Scenario scenario) {
-        if (isPlatform("web")) {
+        if (ConfigLoader.getPlatformType() == PlatformType.WEB) {
             if (scenario.isFailed() && getPage() != null) {
                 try {
                     byte[] screenshot = getPage().screenshot();
@@ -32,11 +36,7 @@ public class Hooks {
                     System.err.println("Failed to capture screenshot for '" + scenario.getName() + "': " + e.getMessage());
                 }
             }
-            closeContextAndPage();
-            closeBrowser();
         }
-        if (isPlatform("api")) closeAPIRequestContext();
-
-        closePlaywright();
+        platformSession.stop();
     }
 }

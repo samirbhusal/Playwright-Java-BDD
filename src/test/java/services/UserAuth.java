@@ -1,22 +1,20 @@
 package services;
 
 import com.microsoft.playwright.APIRequestContext;
-import core.PlaywrightDriverManager;
-import interfaces.CommonActions;
+import core.ConfigLoader;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class UserAuth implements CommonActions {
+public class UserAuth {
 
     private final APIRequestContext request;
 
-    public UserAuth() {
-        this.request = PlaywrightDriverManager.getRequest();
+    public UserAuth(APIRequestContext request) {
+        this.request = request;
     }
 
-    @Override
     public void launch() {
         System.out.println("API environment is set up");
-        assertThat(request.get("https://reqres.in")).isOK();
+        assertThat(request.get(ConfigLoader.getBaseUrl())).isOK();
     }
 }

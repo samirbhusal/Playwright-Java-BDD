@@ -77,7 +77,7 @@
                 <version>3.5.4</version>
                 <configuration>
                     <!-- let the build reach the allure-maven report goal even when scenarios fail -->
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <!--                    <testFailureIgnore>true</testFailureIgnore>-->
                     <suiteXmlFiles>
                         <suiteXmlFile>testng.xml</suiteXmlFile>
                     </suiteXmlFiles>

@@ -3,6 +3,7 @@ package core;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType.LaunchOptions;
 import com.microsoft.playwright.Playwright;
+import helper.BrowserChoice;
 
 import java.util.List;
 

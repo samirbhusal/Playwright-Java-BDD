@@ -4,7 +4,6 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import core.ConfigLoader;
-import core.PlaywrightDriverManager;
 import exceptions.FrameworkException;
 
 import java.util.regex.Pattern;
@@ -14,8 +13,8 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 public class CommonPage {
     private Page page;
 
-    public CommonPage() {
-        this.page = PlaywrightDriverManager.getPage();
+    public CommonPage(Page page) {
+        this.page = page;
     }
 
 

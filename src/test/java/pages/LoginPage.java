@@ -3,7 +3,6 @@ package pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
-import core.PlaywrightDriverManager;
 import exceptions.FrameworkException;
 
 import java.util.regex.Pattern;
@@ -18,8 +17,8 @@ public class LoginPage {
     private final Locator loginPasswordField;
     private final Locator loginToYourAccountHeading;
 
-    public LoginPage() {
-        this.page = PlaywrightDriverManager.getPage();
+    public LoginPage(Page page) {
+        this.page = page;
         this.loginButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Login"));
         this.loginEmailField = page.getByPlaceholder("Email Address").first();
         this.loginPasswordField = page.getByPlaceholder("Password");

@@ -52,4 +52,12 @@ public class CommonPage {
         }
     }
 
+    public void navigateTo(String url) {
+        try {
+            page.navigate(url);
+        } catch (Exception e) {
+            throw new FrameworkException("Error while navigating to: " + url, e);
+        }
+    }
+
 }

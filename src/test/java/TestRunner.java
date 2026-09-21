@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
                 "junit:output/TEST-report.xml",
                 "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"},
         monochrome = true,
-        tags = "@web"
+        tags = "@IP-001"
 )
 
 

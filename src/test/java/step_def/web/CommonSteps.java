@@ -26,4 +26,9 @@ public class CommonSteps extends AbstractWebStepDefinitions {
     public void clickTheButton(String button) {
         pageFactory().commonPage().clickButton(button);
     }
+
+    @Given("user navigates to the {string} url")
+    public void navigateToTheUrl(String url) {
+        pageFactory().commonPage().navigateTo(url);
+    }
 }

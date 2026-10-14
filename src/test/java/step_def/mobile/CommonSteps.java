@@ -7,6 +7,6 @@ public class CommonSteps extends AbstractMobileStepDefinitions {
 
     @Given("user launches the mobile app")
     public void launchMobileApp() {
-        screenFactory().getCommonScreen().launch();
+        screenFactory().getLoginScreen().launch();
     }
 }

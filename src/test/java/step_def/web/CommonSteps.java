@@ -7,10 +7,6 @@ import modules.web.AbstractWebStepDefinitions;
 
 public class CommonSteps extends AbstractWebStepDefinitions {
 
-    public CommonSteps() {
-        super();
-    }
-
     @Given("user launches the web app")
     public void launchWebApp() {
         pageFactory().commonPage().launch();

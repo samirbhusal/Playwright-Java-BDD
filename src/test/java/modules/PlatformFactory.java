@@ -3,6 +3,7 @@ package modules;
 import helper.PlatformType;
 import interfaces.PlatformSession;
 import modules.api.APISession;
+import modules.mobile.AndroidSession;
 import modules.web.WebSession;
 
 public final class PlatformFactory {
@@ -13,6 +14,8 @@ public final class PlatformFactory {
         return switch (type) {
             case WEB -> new WebSession();
             case API -> new APISession();
+            case ANDROID -> new AndroidSession();
+            case IOS -> null;
         };
 
     }

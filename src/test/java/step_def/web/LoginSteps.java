@@ -7,10 +7,6 @@ import modules.web.AbstractWebStepDefinitions;
 
 public class LoginSteps extends AbstractWebStepDefinitions {
 
-    public LoginSteps() {
-        super();
-    }
-
     @And("user should be navigated to login page")
     public void verifyLoginPage() {
         pageFactory().loginPage().verifyLoginPage();

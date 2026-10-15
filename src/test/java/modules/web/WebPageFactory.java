@@ -23,7 +23,7 @@ public class WebPageFactory {
         return commonPage;
     }
 
-    public Dashboard dashboard() {
+    public Dashboard dashboardPage() {
         if (dashboard == null) {
             dashboard = new Dashboard(page);
         }

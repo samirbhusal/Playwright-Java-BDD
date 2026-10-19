@@ -69,7 +69,7 @@ public class PlaywrightDriverManager {
             Map<String, String> headers = new HashMap<>();
             headers.put("Accept", "application/json");
             request.set(getPlaywright().request().newContext(new APIRequest.NewContextOptions()
-                    .setBaseURL("https://reqres.in")
+                    .setBaseURL(ConfigLoader.getBaseUrl())
                     .setExtraHTTPHeaders(headers)
             ));
         } catch (Exception e) {

@@ -8,6 +8,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.qameta.allure.Allure;
 import modules.PlatformFactory;
+import modules.api.AbstractApiStepDefinition;
 
 import java.io.ByteArrayInputStream;
 
@@ -37,6 +38,10 @@ public class Hooks {
                 }
             }
         }
-        platformSession.stop();
+        try {
+            platformSession.stop();
+        } finally {
+            AbstractApiStepDefinition.clearScenarioData();
+        }
     }
 }

@@ -46,7 +46,7 @@ public class LoginScreen {
     public void launch() {
         try {
             driver.manage().timeouts().getImplicitWaitTimeout();
-            if (ConfigLoader.getPlatformType() == PlatformType.ANDROID) {
+            if (ConfigLoader.getPlatformType().equals(PlatformType.ANDROID)) {
                 androidAlertOkButton.click();
             }
             Assert.assertTrue(loginScreenLogo.isDisplayed());

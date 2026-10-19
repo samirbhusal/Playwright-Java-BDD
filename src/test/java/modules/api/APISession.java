@@ -12,6 +12,7 @@ public class APISession implements PlatformSession {
 
     @Override
     public void stop() {
-        System.out.println("API Session stopped");
+        PlaywrightDriverManager.closeAPIRequestContext();
+        PlaywrightDriverManager.closePlaywright();
     }
 }

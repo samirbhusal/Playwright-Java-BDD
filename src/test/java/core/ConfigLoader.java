@@ -2,6 +2,7 @@ package core;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import helper.PlatformType;
 
 import java.io.IOException;
@@ -29,8 +30,11 @@ public class ConfigLoader {
         try {
             runConfig = loadJsonConfig(RUN_CONFIG_PATH);
             envConfig = loadJsonConfig(ENV_CONFIG_PATH);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load config files", e);
+        } catch (IOException | JsonParseException e) {
+            throw new IllegalStateException(
+                    "Failed to load configuration. Check '" + configPathFrom(e) + "' for valid JSON. "
+                            + "Parser details: " + e.getMessage(),
+                    e);
         }
     }
 
@@ -39,8 +43,30 @@ public class ConfigLoader {
      */
     private static JsonObject loadJsonConfig(String filePath) throws IOException {
         Path path = Paths.get(filePath);
-        String content = Files.readString(path);
-        return gson.fromJson(content, JsonObject.class);
+        String content;
+        try {
+            content = Files.readString(path);
+        } catch (IOException e) {
+            throw new IOException("Unable to read configuration file '" + path.toAbsolutePath() + "'", e);
+        }
+        try {
+            return gson.fromJson(content, JsonObject.class);
+        } catch (JsonParseException e) {
+            throw new JsonParseException("Invalid JSON in configuration file '" + path.toAbsolutePath()
+                    + "': " + e.getMessage(), e);
+        }
+    }
+
+    private static String configPathFrom(Exception e) {
+        String message = e.getMessage();
+        if (message != null && message.contains("configuration file '")) {
+            int start = message.indexOf("configuration file '") + "configuration file '".length();
+            int end = message.indexOf('\'', start);
+            if (end > start) {
+                return message.substring(start, end);
+            }
+        }
+        return RUN_CONFIG_PATH + " or " + ENV_CONFIG_PATH;
     }
 
     /**
@@ -75,7 +101,18 @@ public class ConfigLoader {
      */
     public static String getBaseUrl() {
         String env = getEnv();
-        return envConfig.getAsJsonObject(env).get("baseUrl").getAsString();
+        String platform = String.valueOf(getPlatformType()).toLowerCase();
+        if (!envConfig.has(platform) || !envConfig.get(platform).isJsonObject()) {
+            throw new IllegalArgumentException("No environment configuration found for platform '" + platform + "' in " + ENV_CONFIG_PATH);
+        }
+
+        JsonObject platformConfig = envConfig.getAsJsonObject(platform);
+        if (!platformConfig.has(env) || !platformConfig.get(env).isJsonPrimitive()) {
+            throw new IllegalArgumentException("No base URL configured for environment '" + env + "' and platform '"
+                    + platform + "' in " + ENV_CONFIG_PATH);
+        }
+
+        return platformConfig.get(env).getAsString();
     }
 
     /**

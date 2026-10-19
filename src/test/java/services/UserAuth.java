@@ -1,7 +1,10 @@
 package services;
 
 import com.microsoft.playwright.APIRequestContext;
-import core.ConfigLoader;
+import com.microsoft.playwright.APIResponse;
+import com.microsoft.playwright.options.RequestOptions;
+
+import java.util.Map;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
@@ -14,7 +17,10 @@ public class UserAuth {
     }
 
     public void launch() {
-        System.out.println("API environment is set up");
-        assertThat(request.get(ConfigLoader.getBaseUrl())).isOK();
+        assertThat(request.get("/")).isOK();
+    }
+
+    public APIResponse sendPostRequest(String endPoint, Map<String, String> fields) {
+        return request.post(endPoint, RequestOptions.create().setData(fields));
     }
 }
